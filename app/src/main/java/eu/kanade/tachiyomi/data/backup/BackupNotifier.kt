@@ -181,7 +181,6 @@ class BackupNotifier(private val context: Context) {
             }
 
             show(Notifications.ID_RESTORE_COMPLETE)
-            show("Restart required for changes to apply")
         }
     }
 }
