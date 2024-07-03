@@ -28,11 +28,21 @@ class WebtoonRecyclerView @JvmOverloads constructor(
     private var atFirstPosition = false
     private var halfWidth = 0
     private var halfHeight = 0
-    private var originalHeight = 0
+    var originalHeight = 0
+        private set
     private var heightSet = false
     private var firstVisibleItemPosition = 0
     private var lastVisibleItemPosition = 0
     private var currentScale = DEFAULT_RATE
+    var zoomOutDisabled = false
+        set(value) {
+            field = value
+            if (value && currentScale < DEFAULT_RATE) {
+                zoom(currentScale, DEFAULT_RATE, x, 0f, y, 0f)
+            }
+        }
+    private val minRate
+        get() = if (zoomOutDisabled) DEFAULT_RATE else MIN_RATE
 
     private val listener = GestureListener()
     private val detector = Detector()
@@ -166,7 +176,7 @@ class WebtoonRecyclerView @JvmOverloads constructor(
     fun onScale(scaleFactor: Float) {
         currentScale *= scaleFactor
         currentScale = currentScale.coerceIn(
-            MIN_RATE,
+            minRate,
             MAX_SCALE_RATE,
         )
 
@@ -193,8 +203,8 @@ class WebtoonRecyclerView @JvmOverloads constructor(
     }
 
     fun onScaleEnd() {
-        if (scaleX < MIN_RATE) {
-            zoom(currentScale, MIN_RATE, x, 0f, y, 0f)
+        if (scaleX < minRate) {
+            zoom(currentScale, minRate, x, 0f, y, 0f)
         }
     }
 

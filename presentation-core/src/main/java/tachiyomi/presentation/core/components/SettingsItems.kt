@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -43,9 +42,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.StringResource
-import tachiyomi.core.preference.Preference
-import tachiyomi.core.preference.TriState
-import tachiyomi.core.preference.toggle
+import tachiyomi.core.common.preference.Preference
+import tachiyomi.core.common.preference.TriState
+import tachiyomi.core.common.preference.toggle
 import tachiyomi.presentation.core.components.material.padding
 import tachiyomi.presentation.core.i18n.stringResource
 import tachiyomi.presentation.core.theme.header
@@ -55,6 +54,8 @@ object SettingsItemsPaddings {
     val Horizontal = 24.dp
     val Vertical = 10.dp
 }
+
+private const val DisabledContentAlpha = 0.38f
 
 @Composable
 fun HeadingItem(labelRes: StringResource) {
@@ -278,7 +279,7 @@ fun TriStateItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.padding.large),
     ) {
-        val stateAlpha = if (enabled && onClick != null) 1f else ContentAlpha.disabled
+        val stateAlpha = if (enabled && onClick != null) 1f else DisabledContentAlpha
 
         Icon(
             imageVector = when (state) {
@@ -291,7 +292,7 @@ fun TriStateItem(
                 MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = stateAlpha)
             } else {
                 when (onClick) {
-                    null -> MaterialTheme.colorScheme.onSurface.copy(alpha = ContentAlpha.disabled)
+                    null -> MaterialTheme.colorScheme.onSurface.copy(alpha = DisabledContentAlpha)
                     else -> MaterialTheme.colorScheme.primary
                 }
             },

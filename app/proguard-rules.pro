@@ -2,6 +2,7 @@
 
 -keep,allowoptimization class eu.kanade.**
 -keep,allowoptimization class tachiyomi.**
+-keep,allowoptimization class mihon.**
 
 # Keep common dependencies used in extensions
 -keep,allowoptimization class androidx.preference.** { public protected *; }
@@ -42,6 +43,10 @@
 
 -dontnote rx.internal.util.PlatformDependent
 ##---------------End: proguard configuration for RxJava 1.x  ----------
+
+##---------------Begin: proguard configuration for okhttp  ----------
+-keepclasseswithmembers class okhttp3.MultipartBody$Builder { *; }
+##---------------End: proguard configuration for okhttp  ----------
 
 ##---------------Begin: proguard configuration for kotlinx.serialization  ----------
 -keepattributes *Annotation*, InnerClasses

@@ -3,8 +3,8 @@ package eu.kanade.tachiyomi.ui.reader.setting
 import android.os.Build
 import androidx.compose.ui.graphics.BlendMode
 import dev.icerock.moko.resources.StringResource
-import tachiyomi.core.preference.PreferenceStore
-import tachiyomi.core.preference.getEnum
+import tachiyomi.core.common.preference.PreferenceStore
+import tachiyomi.core.common.preference.getEnum
 import tachiyomi.i18n.MR
 
 class ReaderPreferences(
@@ -17,14 +17,17 @@ class ReaderPreferences(
 
     fun flashOnPageChange() = preferenceStore.getBoolean("pref_reader_flash", false)
 
+    fun flashDurationMillis() = preferenceStore.getInt("pref_reader_flash_duration", MILLI_CONVERSION)
+
+    fun flashPageInterval() = preferenceStore.getInt("pref_reader_flash_interval", 1)
+
+    fun flashColor() = preferenceStore.getEnum("pref_reader_flash_mode", FlashColor.BLACK)
+
     fun doubleTapAnimSpeed() = preferenceStore.getInt("pref_double_tap_anim_speed", 500)
 
     fun showPageNumber() = preferenceStore.getBoolean("pref_show_page_number_key", true)
 
     fun showReadingMode() = preferenceStore.getBoolean("pref_show_reading_mode", true)
-
-    // TODO: default this to true if reader long strip ever goes stable
-    fun trueColor() = preferenceStore.getBoolean("pref_true_color_key", false)
 
     fun fullscreen() = preferenceStore.getBoolean("fullscreen", true)
 
@@ -71,6 +74,8 @@ class ReaderPreferences(
     fun skipFiltered() = preferenceStore.getBoolean("skip_filtered", true)
 
     fun skipDupe() = preferenceStore.getBoolean("skip_dupe", false)
+
+    fun webtoonDisableZoomOut() = preferenceStore.getBoolean("webtoon_disable_zoom_out", false)
 
     // endregion
 
@@ -134,6 +139,12 @@ class ReaderPreferences(
 
     // endregion
 
+    enum class FlashColor {
+        BLACK,
+        WHITE,
+        WHITE_BLACK
+    }
+
     enum class TappingInvertMode(
         val titleRes: StringResource,
         val shouldInvertHorizontal: Boolean = false,
@@ -155,6 +166,8 @@ class ReaderPreferences(
     companion object {
         const val WEBTOON_PADDING_MIN = 0
         const val WEBTOON_PADDING_MAX = 25
+
+        const val MILLI_CONVERSION = 100
 
         val TapZones = listOf(
             MR.strings.label_default,

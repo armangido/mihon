@@ -1,6 +1,6 @@
 plugins {
+    id("mihon.library")
     kotlin("multiplatform")
-    id("com.android.library")
 }
 
 kotlin {
@@ -12,12 +12,11 @@ kotlin {
                 api(projects.i18n)
 
                 implementation(libs.unifile)
-                implementation(libs.junrar)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(projects.core)
+                implementation(projects.core.common)
                 implementation(projects.coreMetadata)
 
                 // Move ChapterRecognition to separate module?
@@ -40,7 +39,7 @@ android {
 
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.freeCompilerArgs += listOf(
+        compilerOptions.freeCompilerArgs.addAll(
             "-Xexpect-actual-classes",
             "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
         )

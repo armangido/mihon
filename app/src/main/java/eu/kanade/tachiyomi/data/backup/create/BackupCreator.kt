@@ -13,7 +13,6 @@ import eu.kanade.tachiyomi.data.backup.models.Backup
 import eu.kanade.tachiyomi.data.backup.models.BackupCategory
 import eu.kanade.tachiyomi.data.backup.models.BackupManga
 import eu.kanade.tachiyomi.data.backup.models.BackupPreference
-import eu.kanade.tachiyomi.data.backup.models.BackupSerializer
 import eu.kanade.tachiyomi.data.backup.models.BackupSource
 import eu.kanade.tachiyomi.data.backup.models.BackupSourcePreferences
 import kotlinx.serialization.protobuf.ProtoBuf
@@ -21,8 +20,8 @@ import logcat.LogPriority
 import okio.buffer
 import okio.gzip
 import okio.sink
-import tachiyomi.core.i18n.stringResource
-import tachiyomi.core.util.system.logcat
+import tachiyomi.core.common.i18n.stringResource
+import tachiyomi.core.common.util.system.logcat
 import tachiyomi.domain.backup.service.BackupPreferences
 import tachiyomi.domain.manga.interactor.GetFavorites
 import tachiyomi.domain.manga.model.Manga
@@ -84,7 +83,7 @@ class BackupCreator(
                 backupSourcePreferences = backupSourcePreferences(options),
             )
 
-            val byteArray = parser.encodeToByteArray(BackupSerializer, backup)
+            val byteArray = parser.encodeToByteArray(Backup.serializer(), backup)
             if (byteArray.isEmpty()) {
                 throw IllegalStateException(context.stringResource(MR.strings.empty_backup_error))
             }

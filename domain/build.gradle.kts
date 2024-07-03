@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library")
+    id("mihon.library")
     kotlin("android")
     kotlin("plugin.serialization")
 }
@@ -15,7 +15,7 @@ android {
 
 dependencies {
     implementation(projects.sourceApi)
-    implementation(projects.core)
+    implementation(projects.core.common)
 
     implementation(platform(kotlinx.coroutines.bom))
     implementation(kotlinx.bundles.coroutines)
@@ -31,8 +31,9 @@ dependencies {
 
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.freeCompilerArgs += listOf(
+        compilerOptions.freeCompilerArgs.addAll(
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-Xcontext-receivers",
         )
     }
 }
